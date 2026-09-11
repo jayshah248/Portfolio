@@ -1,862 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jay Shah | Software Engineer & AI Engineer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --dark: #0f0f23;
-            --card: rgba(30, 30, 50, 0.7);
-            --text: #e2e8f0;
-            --text-secondary: #94a3b8;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            color: var(--text);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-            opacity: 0.3;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0);
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-            }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            padding: 1rem 5%;
-            background: rgba(15, 15, 35, 0.95);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); }
-            to { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            animation: slideInLeft 1s ease-out;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .hero-text p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            animation: slideInLeft 1s ease-out 0.2s backwards;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            animation: slideInLeft 1s ease-out 0.4s backwards;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-secondary {
-            border: 2px solid var(--primary);
-            color: var(--text);
-            background: transparent;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* 3D Card */
-        .hero-card {
-            perspective: 1000px;
-            animation: slideInRight 1s ease-out;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .card-3d {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 20px;
-            padding: 3rem;
-            backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            transition: transform 0.6s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-3d::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.1), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .card-3d:hover {
-            transform: rotateY(10deg) rotateX(-10deg);
-        }
-
-        .stat {
-            margin-bottom: 2rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        /* Experience Cards */
-        .experience-grid {
-            display: grid;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .exp-card {
-            background: rgba(30, 30, 50, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .exp-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .exp-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
-        }
-
-        .exp-card:hover::before {
-            opacity: 1;
-        }
-
-        .exp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .exp-title {
-            font-size: 1.5rem;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .exp-company {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .exp-date {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-        }
-
-        .exp-list {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .exp-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .exp-list li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* Skills Section */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category {
-            background: rgba(30, 30, 50, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .skill-category h3 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.25rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-tag {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .skill-tag:hover {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Contact Section */
-        .contact {
-            text-align: center;
-            padding: 5rem 5%;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-            border-radius: 30px;
-            margin: 3rem auto;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .contact-link {
-            color: var(--text);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(30, 30, 50, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-link:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Loading animation */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .loading {
-            animation: pulse 2s infinite;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downhill Rush: Bike Racer — a game by Jay Shah</title>
+<meta name="description" content="Downhill Rush: Bike Racer is a first-person endless descent down a hand-painted mountain trail, made by Jay Shah in Toronto. Free on Google Play and the App Store, and it plays offline.">
+<link rel="canonical" href="https://thejayshah.com/">
+<meta name="author" content="Jay Shah">
+<meta name="theme-color" content="#f3e7d0">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jay Shah">
+<meta property="og:url" content="https://thejayshah.com/">
+<meta property="og:title" content="Downhill Rush: Bike Racer">
+<meta property="og:description" content="You are on a bike, at the top of a mountain, and the trail only goes one way. Free on Google Play and the App Store.">
+<meta property="og:image" content="https://thejayshah.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Watercolour painting of a mountain biker airborne off a dirt jump above a forested valley.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Downhill Rush: Bike Racer">
+<meta name="twitter:description" content="You are on a bike, at the top of a mountain, and the trail only goes one way.">
+<meta name="twitter:image" content="https://thejayshah.com/assets/og.jpg">
+
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" as="image" href="assets/hero-1400.webp" imagesrcset="assets/hero-640.webp 640w, assets/hero-1000.webp 1000w, assets/hero-1400.webp 1400w" imagesizes="(max-width: 900px) 100vw, 52vw">
+
+<style>
+/* ───────────────────────────────────────────────────────────────
+   thejayshah.com — Downhill Rush: Bike Racer
+   Palette sampled from the game's own frames. Do not swap these
+   for brighter equivalents: the rust and sky values are already
+   the darkest members of their family that clear WCAG AA on paper.
+   ─────────────────────────────────────────────────────────────── */
+:root{
+  --paper:#f3e7d0;
+  --paper-deep:#e9d8b8;
+  --ink:#2b2118;
+  --ink-soft:#5b4a38;
+  --pine:#33401f;
+  --rust:#9c4a18;
+  --sky:#2f6f88;
+
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua","Hoefler Text",Georgia,serif;
+
+  --rail:7.5rem;          /* width of the trail rail at desktop */
+  --wrap:69rem;           /* max content measure incl. rail */
+  --gut:clamp(1.25rem,5vw,3rem);
+
+  --s1:.5rem; --s2:1rem; --s3:1.5rem; --s4:2rem;
+  --s5:3rem; --s6:4rem; --s7:6rem; --s8:8rem;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font:400 1.0625rem/1.65 var(--serif);
+  overflow-x:hidden;
+}
+
+/* Pigment. Two soft washes and a paper grain, so the ground reads as
+   stock with something spilled on it rather than as a flat fill. */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(58rem 40rem at 88% -6%,  rgba(99,188,182,.20), transparent 62%),
+    radial-gradient(52rem 44rem at -8% 42%,  rgba(217,173,114,.30), transparent 60%),
+    radial-gradient(44rem 38rem at 106% 88%, rgba(165,81,32,.14),   transparent 62%);
+}
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  mix-blend-mode:multiply; opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Everything real sits above the pigment. */
+body>*{position:relative; z-index:1}
+
+img{max-width:100%; height:auto; display:block}
+figure{margin:0}
+
+a{color:var(--rust); text-decoration-thickness:1px; text-underline-offset:.18em}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2.5px solid var(--rust); outline-offset:3px; border-radius:2px}
+
+.skip{
+  position:absolute; left:var(--gut); top:-4rem; z-index:50;
+  background:var(--ink); color:var(--paper);
+  padding:.7rem 1rem; font:600 .9375rem var(--sans); text-decoration:none;
+  transition:top .15s;
+}
+.skip:focus{top:.75rem}
+
+h1,h2,h3{font-family:var(--sans); font-weight:800; margin:0}
+h1{font-size:clamp(2.1rem,5.4vw,3.6rem); line-height:.95; letter-spacing:-.035em}
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem); line-height:1.08; letter-spacing:-.025em}
+h3{font-size:1.1875rem; line-height:1.3; letter-spacing:-.012em}
+p{margin:0 0 var(--s3)}
+p:last-child{margin-bottom:0}
+
+/* ── the spine ────────────────────────────────────────────────────
+   Two columns: a trail rail carrying distance markers, and the
+   content. The rail is the page's one ornament and it is doing a
+   job — it says how far down the descent you are, in the units the
+   game's own HUD uses. Below 62rem it collapses to a single rule. */
+.wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:var(--gut)}
+
+.trail{
+  max-width:var(--wrap); margin-inline:auto;
+  padding-inline:var(--gut);
+  display:grid; grid-template-columns:var(--rail) minmax(0,1fr);
+}
+.trail>.rail{
+  position:relative;
+  border-right:2px solid rgba(156,74,24,.28);
+}
+.rail .mark{
+  position:absolute; right:0; transform:translate(50%,-50%);
+  display:flex; align-items:center; gap:.55rem;
+  flex-direction:row-reverse;
+}
+.rail .mark::after{
+  content:""; width:.6875rem; height:.6875rem; border-radius:50%;
+  background:var(--rust); box-shadow:0 0 0 5px var(--paper);
+}
+.rail .mark span{
+  font:700 .8125rem/1 var(--sans); letter-spacing:.01em;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.trail>.body{padding-left:clamp(1.5rem,4vw,3rem)}
+
+section{padding-block:clamp(2.75rem,7vw,5.5rem)}
+section:first-of-type{padding-top:clamp(1rem,3vw,2.5rem)}
+
+.lede{font-size:clamp(1.2rem,2.3vw,1.4rem); line-height:1.5}
+.measure{max-width:36em}
+
+/* ── masthead ─────────────────────────────────────────────────── */
+.masthead{
+  padding-block:var(--s3);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--s3); flex-wrap:wrap;
+}
+.brand{
+  display:flex; align-items:center; gap:.7rem;
+  font:800 1.0625rem/1 var(--sans); letter-spacing:-.015em;
+  color:var(--ink); text-decoration:none;
+}
+.brand img{width:34px; height:34px; border-radius:8px}
+.masthead nav{display:flex; gap:var(--s3); flex-wrap:wrap}
+.masthead nav a{
+  font:600 .9375rem/1 var(--sans); color:var(--ink-soft);
+  text-decoration:none; padding-block:.25rem;
+  border-bottom:2px solid transparent;
+}
+.masthead nav a:hover{color:var(--ink); border-bottom-color:var(--rust)}
+
+/* ── hero ─────────────────────────────────────────────────────── */
+.hero{display:grid; gap:clamp(2rem,4vw,3.5rem); align-items:center}
+@media(min-width:56rem){
+  .hero{grid-template-columns:minmax(0,1.06fr) minmax(0,1fr)}
+}
+.eyebrow{
+  font:700 .875rem/1 var(--sans); letter-spacing:.02em;
+  color:var(--rust); margin:0 0 var(--s2);
+}
+/* Stacked, the way the in-game wordmark stacks it. */
+.hero h1{margin-bottom:.45rem; line-height:.86}
+.hero h1 span{display:block}
+.hero .lede{margin:var(--s3) 0 var(--s4); max-width:26em}
+
+/* The painting bleeds off the right edge of the viewport, the way it
+   bleeds off the edge of the trail. Deckled left edge, cut with a mask. */
+.plate{position:relative}
+.plate img{
+  width:100%; border-radius:3px;
+  box-shadow:0 1px 0 rgba(43,33,24,.10), 0 18px 40px -28px rgba(43,33,24,.55);
+}
+@media(min-width:56rem){
+  /* Run the painting off the right edge of the viewport. The offset is the
+     distance from the content's right edge to the viewport's: half the
+     difference between the wrap and the viewport, plus the gutter. */
+  .plate{margin-right:min(0px,calc((var(--wrap) - 100vw)/2 - var(--gut)))}
+  .plate img{border-radius:3px 0 0 3px}
+}
+.caption{
+  font:600 .8125rem/1.4 var(--sans); color:var(--ink-soft);
+  margin-top:.65rem; max-width:34em;
+}
+
+/* ── store buttons ────────────────────────────────────────────────
+   Both stores get byte-identical treatment. If one ever looks more
+   important than the other, that is a bug. */
+.stores{display:flex; gap:.75rem; flex-wrap:wrap; margin:0}
+.store{
+  display:inline-flex; align-items:center; gap:.7rem;
+  padding:.8rem 1.15rem;
+  background:var(--ink); color:var(--paper);
+  font-family:var(--sans); text-decoration:none;
+  border:2px solid var(--ink); border-radius:6px;
+  transition:transform .12s ease, background-color .12s ease;
+}
+.store:hover{background:#3c2e21; transform:translateY(-2px)}
+.store:active{transform:translateY(0)}
+.store svg{width:22px; height:22px; flex:none; fill:currentColor}
+.store b{display:block; font-size:.9375rem; font-weight:700; letter-spacing:-.01em}
+.store small{display:block; font-size:.6875rem; font-weight:600; opacity:.78; letter-spacing:.02em}
+
+/* ── prose columns ────────────────────────────────────────────── */
+.craft{display:grid; gap:var(--s5)}
+@media(min-width:60rem){.craft{grid-template-columns:repeat(3,1fr); gap:var(--s4)}}
+.craft article{border-top:3px solid var(--rust); padding-top:var(--s2)}
+.craft h3{margin-bottom:.6rem}
+.craft p{font-size:1rem; color:var(--ink-soft)}
+
+/* ── trailer ──────────────────────────────────────────────────── */
+.tvwrap{display:grid; gap:var(--s4); align-items:center}
+@media(min-width:56rem){
+  .tvwrap{grid-template-columns:minmax(0,1fr) auto; gap:var(--s6)}
+}
+/* The trailer is portrait phone footage, so the player is phone-shaped
+   rather than letterboxed into a 16:9 slot it never filled. */
+.tv{
+  position:relative; width:min(19rem,72vw); aspect-ratio:1080/2340;
+  border:0; padding:0; margin:0; display:block; cursor:pointer;
+  background:var(--paper-deep) center/cover no-repeat;
+  border-radius:14px; overflow:hidden; color:var(--paper);
+  box-shadow:0 1px 0 rgba(43,33,24,.12), 0 14px 30px -22px rgba(43,33,24,.7);
+}
+.tv::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(43,33,24,0) 40%,rgba(43,33,24,.55));
+}
+.tv .play{
+  position:absolute; left:50%; top:50%; translate:-50% -50%; z-index:2;
+  width:4.25rem; height:4.25rem; border-radius:50%;
+  background:var(--rust); display:grid; place-items:center;
+  box-shadow:0 10px 30px -10px rgba(43,33,24,.7);
+  transition:transform .14s ease;
+}
+.tv:hover .play{transform:scale(1.06)}
+.tv .play svg{width:1.55rem; height:1.55rem; fill:var(--paper); margin-left:.18rem}
+.tv .lbl{
+  position:absolute; left:1rem; right:1rem; bottom:.9rem; z-index:2;
+  font:700 .875rem/1.3 var(--sans); letter-spacing:-.01em; text-align:left;
+  text-shadow:0 1px 6px rgba(43,33,24,.85);
+}
+.tvframe{
+  width:min(19rem,72vw); aspect-ratio:1080/2340;
+  border:0; border-radius:14px; display:block;
+}
+
+/* ── screenshot rail ──────────────────────────────────────────── */
+.shots{
+  display:flex; gap:var(--s2); overflow-x:auto; padding-bottom:var(--s2);
+  scroll-snap-type:x mandatory; scrollbar-width:thin;
+  scrollbar-color:rgba(156,74,24,.45) transparent;
+}
+.shots img{
+  flex:none; width:min(15rem,56vw); border-radius:14px;
+  scroll-snap-align:start;
+  box-shadow:0 1px 0 rgba(43,33,24,.12), 0 14px 30px -22px rgba(43,33,24,.7);
+}
+.shots::-webkit-scrollbar{height:9px}
+.shots::-webkit-scrollbar-thumb{background:rgba(156,74,24,.45); border-radius:9px}
+
+/* ── the numbers ──────────────────────────────────────────────────
+   The one inverted band. Figures, not stat cards: no boxes, no
+   borders, no shadows. */
+.ledger{background:var(--pine); color:var(--paper); margin-block:0}
+.ledger .trail>.rail{border-right-color:rgba(243,231,208,.28)}
+.ledger .rail .mark::after{background:var(--paper-deep); box-shadow:0 0 0 5px var(--pine)}
+.ledger .rail .mark span{color:rgba(243,231,208,.72)}
+.ledger h2{color:var(--paper)}
+.ledger .lede{color:rgba(243,231,208,.86)}
+.figures{
+  display:grid; gap:var(--s4) var(--s3); margin-top:var(--s5);
+  grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+}
+.figures div b{
+  display:block; font:800 clamp(2rem,4.4vw,2.9rem)/1 var(--sans);
+  letter-spacing:-.04em; color:var(--paper);
+}
+.figures div span{
+  display:block; margin-top:.45rem;
+  font:600 .9375rem/1.35 var(--sans); color:rgba(243,231,208,.78);
+}
+
+/* ── the maker ────────────────────────────────────────────────── */
+.maker{display:grid; gap:var(--s5)}
+@media(min-width:56rem){.maker{grid-template-columns:15rem minmax(0,1fr); gap:var(--s6)}}
+.maker .who{
+  font:600 .9375rem/1.6 var(--sans); color:var(--ink-soft);
+  border-top:3px solid var(--rust); padding-top:var(--s2);
+}
+.maker p{max-width:36em}
+
+/* ── contact ──────────────────────────────────────────────────── */
+.mailto{
+  font:800 clamp(1.25rem,3.2vw,2rem)/1.2 var(--sans);
+  letter-spacing:-.025em; color:var(--ink);
+  text-decoration:none; border-bottom:3px solid var(--rust);
+}
+.mailto:hover{color:var(--rust)}
+
+/* ── footer ───────────────────────────────────────────────────── */
+footer{
+  background:var(--paper-deep);
+  border-top:2px solid rgba(43,33,24,.14);
+  padding-block:var(--s5);
+  font-family:var(--sans);
+}
+.foot{display:grid; gap:var(--s4)}
+@media(min-width:48rem){.foot{grid-template-columns:1fr auto; align-items:start}}
+.legal{display:flex; gap:var(--s3); flex-wrap:wrap; margin:0; padding:0; list-style:none}
+.legal a{font-weight:600; font-size:.9375rem; color:var(--ink); text-decoration-color:rgba(156,74,24,.6)}
+.legal a:hover{color:var(--rust)}
+.colophon{font-size:.875rem; line-height:1.6; color:var(--ink-soft); margin:0}
+.colophon strong{color:var(--ink)}
+
+/* ── the rail collapses; the page stays a descent ─────────────── */
+@media(max-width:62rem){
+  .trail{grid-template-columns:1px minmax(0,1fr)}
+  .rail .mark span{display:none}
+  .rail .mark::after{width:.5rem; height:.5rem}
+  .trail>.body{padding-left:clamp(1.1rem,5vw,2rem)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+  .store:hover,.tv:hover .play{transform:none}
+}
+</style>
 </head>
 <body>
-    <!-- Animated particles background -->
-    <div class="particles" id="particles"></div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="logo">JS</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+<a class="skip" href="#main">Skip to content</a>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Hi, I'm <span class="gradient-text">Jay Shah</span></h1>
-                <h1>Software Engineer & AI Engineer</h1>
-                <p>Software Engineer with 3+ years building enterprise solutions. Specializing in scalable architectures, modern web applications, and AI-powered systems.</p>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                    <a href="#experience" class="btn btn-secondary">View My Work</a>
-                </div>
-            </div>
-            <div class="hero-card">
-                <div class="card-3d">
-                    <div class="stat">
-                        <div class="stat-label">Years of Experience</div>
-                        <div class="stat-value">3+</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Technologies</div>
-                        <div class="stat-value">15+</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Focus Areas</div>
-                        <div class="stat-value">Full-Stack & AI</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<header class="wrap masthead">
+  <a class="brand" href="/">
+    <img src="assets/icon-256.webp" width="34" height="34" alt="" loading="eager" decoding="async">
+    Jay Shah
+  </a>
+  <nav aria-label="Sections">
+    <a href="#game">The game</a>
+    <a href="#maker">Who made it</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-    <!-- Experience Section -->
-    <section id="experience" class="fade-in">
-        <h2 class="section-title gradient-text">Experience</h2>
-        <div class="experience-grid">
-            <div class="exp-card">
-                <div class="exp-header">
-                    <div>
-                        <h3 class="exp-title">AI Engineer</h3>
-                        <p class="exp-company">Wonderbrands | FGF Brands</p>
-                    </div>
-                    <span class="exp-date">May 2025 - Present</span>
-                </div>
-                <ul class="exp-list">
-                    <li>Developed an agentic framework for processing customer complaints by orchestrating multiple LLM agents using LangChain and LangGraph to handle distinct areas of processing.</li>
-                    <li>Engineered an internal AI chatbot using fine-tuned OpenAI models and RAG to query both documents and SQL databases, providing instant, accurate answers to complex employee queries</li>
-                    <li>Integrated a Generative AI feature into an internal low-code platform, enabling users to generate entire applications from natural language prompts using LLM function calling</li>
-                    <li>Developed an AI-powered OCR solution using Python and LLMs (OpenAI/Claude) to extract structured data from non-standard machine manuals, reducing manual data entry work from months to hours</li>
-                    <li>Architected an IoT data collection pipeline (Azure IoT Hub, MongoDB) to capture real-time metrics from diverse plant machinery, enabling ML analysis in Databricks to determine the key machine settings that impact final product color and quality</li>
-                </ul>
-            </div>
+<main id="main">
 
-            <div class="exp-card">
-                <div class="exp-header">
-                    <div>
-                        <h3 class="exp-title">Software Engineer</h3>
-                        <p class="exp-company">Wonderbrands | FGF Brands</p>
-                    </div>
-                    <span class="exp-date">May 2023 - Apr 2025</span>
-                </div>
-                <ul class="exp-list">
-                    <li>Designed and implemented a large-scale, federated Single Sign-On (SSO) system from the ground up using .NET 6, SQL, and the OIDC protocol</li>
-                    <li>The SSO system serves as the central authentication provider for a diverse suite of enterprise applications, including .NET, React, Node.js, Python, and mobile platforms</li>
-                    <li>Led the technical architecture of a complex label designing and printing system; executed deep library customization of Bold Reports by monkey-patching to meet bespoke business requirements</li>
-                    <li>Developed a custom C# desktop application for printing labels with dynamic content (barcodes, timestamps) to Zebra printers</li>
-                    <li>Built a custom microservice for on-the-fly barcode generation and RDL-to-HTML parsing, deployed as a Linux Docker container in Azure Container Repository</li>
-                    <li>Architected and configured end-to-end CI/CD build and deployment pipelines in Azure DevOps for all developed applications</li>
-                    <li>Provide technical leadership and mentorship to interns, leading comprehensive code reviews and managing the pull request (PR) approval process to ensure code quality and best practices</li>
-                </ul>
-            </div>
-
-            <div class="exp-card">
-                <div class="exp-header">
-                    <div>
-                        <h3 class="exp-title">Software Engineer Intern</h3>
-                        <p class="exp-company">Wonderbrands | FGF Brands</p>
-                    </div>
-                    <span class="exp-date">Jan 2023 - Apr 2023</span>
-                </div>
-                <ul class="exp-list">
-                    <li>Contributed to internal low-code platform development with .NET Core and CosmosDB</li>
-                    <li>Developed frontend components using Razor Pages, JavaScript, and Telerik/Kendo UI</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="fade-in">
-        <h2 class="section-title gradient-text">Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3>Backend Development</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">.NET 6/.NET Core</span>
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">Python (Flask, FastAPI, Django)</span>
-                    <span class="skill-tag">Node.js (Express)</span>
-                    <span class="skill-tag">Microservices</span>
-                    <span class="skill-tag">RESTful APIs</span>
-                    <span class="skill-tag">System Design</span>
-                    <span class="skill-tag">OIDC & SSO</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3>AI & Machine Learning</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Generative AI</span>
-                    <span class="skill-tag">LLMs (GPT, Claude)</span>
-                    <span class="skill-tag">RAG Systems</span>
-                    <span class="skill-tag">Fine-Tuning</span>
-                    <span class="skill-tag">Function Calling</span>
-                    <span class="skill-tag">Databricks</span>
-                    <span class="skill-tag">OCR</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3>Frontend & Cloud</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">React</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">TypeScript</span>
-                    <span class="skill-tag">Azure (IoT Hub, DevOps)</span>
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">CI/CD Pipelines</span>
-                    <span class="skill-tag">MongoDB</span>
-                    <span class="skill-tag">SQL Server</span>
-                    <span class="skill-tag">CosmosDB</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Personal Projects Section -->
-    <section id="projects" class="fade-in">
-        <h2 class="section-title gradient-text">Beyond the Code</h2>
-        <div class="projects-container" style="max-width: 1000px; margin: 0 auto; text-align: center;">
-            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem;">
-                When I'm not building enterprise solutions or training AI models, you'll find me exploring creative tech
-            </p>
-            <div class="hobby-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                <div class="hobby-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(99, 102, 241, 0.1)); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); transition: all 0.3s ease;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎮</div>
-                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Game Development</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Building game prototypes in my spare time - experimenting with mechanics, procedural generation, and interactive storytelling. Because sometimes the best way to learn is to play!
-                    </p>
-                </div>
-                <div class="hobby-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); transition: all 0.3s ease;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
-                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Tech Community</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Active participant in Toronto's tech scene - attending GenAI events by Google, Microsoft, and Databricks. Always learning, always growing.
-                    </p>
-                </div>
-                <div class="hobby-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); transition: all 0.3s ease;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">💡</div>
-                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">Innovation Lab</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Constantly tinkering with new technologies - from IoT sensors to machine learning models. My home lab is where ideas become prototypes.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <style>
-        .hobby-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
-        }
-
-        .hobby-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .hobby-grid {
-                grid-template-columns: 1fr !important;
-            }
-        }
-    </style>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact fade-in">
-        <h2 class="section-title gradient-text">Let's Connect</h2>
-        <p>I'm actively engaged in the AI community and always open to discussing new opportunities and innovative projects.</p>
-        <div class="contact-links">
-            <a href="mailto:jayshah248@gmail.com" class="contact-link">
-                <span>📧</span> jayshah248@gmail.com
+  <!-- ── hero ───────────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:4.5rem"><span>0 m</span></span></div>
+    <div class="body">
+      <section class="hero" id="game">
+        <div>
+          <p class="eyebrow">Free on Google Play and the App Store</p>
+          <!-- The space between the spans is load-bearing: without it the
+               accessible name and any copied text read "Rush:Bike". -->
+          <h1><span>Downhill Rush:</span> <span>Bike Racer</span></h1>
+          <p class="lede">You are on a bike, at the top of a mountain, and the trail only goes one way.</p>
+          <div class="stores">
+            <a class="store" href="https://play.google.com/store/apps/details?id=com.onehit.downhillrush_bikeracer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 2.1c-.3.2-.5.6-.5 1.1v17.6c0 .5.2.9.5 1.1l9.3-9.9zm10.4 8.7 2.9-3.1-9.9-5.6c-.5-.3-1-.3-1.4-.1zm0 2.4-8.4 8.9c.4.2.9.2 1.4-.1l9.9-5.7zm4-4.2-3 3.2 3 3.2 3-1.7c.9-.5.9-1.4 0-1.9z"/></svg>
+              <span><small>Get it on</small> <b>Google Play</b></span>
             </a>
-            <a href="tel:+14376798426" class="contact-link">
-                <span>📱</span> (437) 679-8426
+            <a class="store" href="https://apps.apple.com/app/id6803307727">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.04c-.02-2.27 1.85-3.36 1.94-3.41-1.06-1.55-2.7-1.76-3.29-1.78-1.4-.14-2.73.82-3.44.82-.71 0-1.8-.8-2.96-.78-1.52.02-2.93.88-3.71 2.24-1.58 2.74-.4 6.8 1.13 9.02.75 1.09 1.64 2.31 2.81 2.27 1.13-.05 1.55-.73 2.92-.73 1.36 0 1.75.73 2.94.71 1.21-.02 1.98-1.11 2.72-2.2.86-1.26 1.21-2.48 1.23-2.54-.03-.01-2.36-.9-2.38-3.59zM14.8 5.5c.62-.76 1.04-1.8.93-2.85-.9.04-1.98.6-2.62 1.35-.58.67-1.08 1.74-.95 2.76 1 .08 2.02-.51 2.64-1.26z"/></svg>
+              <span><small>Download on the</small> <b>App Store</b></span>
             </a>
-            <a href="#" class="contact-link">
-                <span>📍</span> Toronto, ON
-            </a>
+          </div>
         </div>
-    </section>
 
-    <script>
-        // Create animated particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        <figure class="plate">
+          <picture>
+            <source srcset="assets/hero-640.webp 640w, assets/hero-1000.webp 1000w, assets/hero-1400.webp 1400w"
+                    sizes="(max-width:56rem) 100vw, 52vw" type="image/webp">
+            <img src="assets/hero-1400.webp" width="1400" height="933" fetchpriority="high" decoding="async"
+                 alt="Watercolour painting of a mountain biker in a red jersey airborne off a dirt kicker, above a wide valley of pine ridges with a river below.">
+          </picture>
+        </figure>
+      </section>
+    </div>
+  </div>
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
+  <!-- ── what it is ─────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:7rem"><span>340 m</span></span></div>
+    <div class="body">
+      <section>
+        <h2>No lanes, no rails, no auto-steer</h2>
+        <p class="lede measure" style="margin-top:var(--s3)">A first-person endless descent through a hand-painted forest valley. Hold anywhere on the screen and the bike goes where your thumb is.</p>
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+        <div class="craft" style="margin-top:var(--s5)">
+          <article>
+            <h3>Steering is a skill</h3>
+            <p>Most runners give you three lanes and a swipe. This gives you the whole trail. Lean hard enough into a corner and the back end steps out into a drift, which costs you grip and buys you angle.</p>
+          </article>
+          <article>
+            <h3>Commit before you leave the ground</h3>
+            <p>The trail is built out of rolling whoops and kicker crests. Hit one flat out and you clear thirty metres of trail and whatever was sitting on it. Steering barely works in the air.</p>
+          </article>
+          <article>
+            <h3>The grass won't kill you</h3>
+            <p>Run wide and you are on the bank, fighting for grip and threading between trunks with the camera shaking itself apart. It is survivable. It is rarely a good idea.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+  <!-- ── trailer ────────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:7rem"><span>910 m</span></span></div>
+    <div class="body">
+      <section>
+        <div class="tvwrap">
+          <div>
+            <h2>Twenty seconds of it</h2>
+            <p class="lede measure" style="margin-top:var(--s3)">Recorded on a phone, held the way the game is played. The distance and the speed on the readout are the real ones.</p>
+            <p class="caption" style="margin-top:var(--s3)">Nothing is requested from YouTube until you press play.</p>
+          </div>
+          <button class="tv" id="tv" type="button"
+                  style="background-image:url('assets/trailer-poster.webp')"
+                  aria-label="Play the Downhill Rush trailer on YouTube">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+            <span class="lbl">Downhill Rush: Bike Racer — trailer</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
 
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+  <!-- ── screenshots ────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:7rem"><span>1,480 m</span></span></div>
+    <div class="body">
+      <section>
+        <h2>Painted, not rendered</h2>
+        <p class="lede measure" style="margin-top:var(--s3)">The whole game runs through a watercolour pass — soft washes, ink contours, paper grain. It looks like a moving illustration, and at 100&nbsp;km/h it looks like one that is about to come apart.</p>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+        <div class="shots" role="region" aria-label="Screenshots from Downhill Rush" tabindex="0" style="margin-top:var(--s4)">
+          <img src="assets/shots/ride-fast.webp"    width="620" height="1102" loading="lazy" decoding="async" alt="First-person view over the handlebars at speed, distance and speed readout at the top of the screen.">
+          <img src="assets/shots/ride-slide.webp"   width="620" height="1102" loading="lazy" decoding="async" alt="The bike drifting through a bend, dust coming off the back wheel.">
+          <img src="assets/shots/ride-trail.webp"   width="620" height="1102" loading="lazy" decoding="async" alt="A narrow section of trail between banks of bright green grass and autumn trees.">
+          <img src="assets/shots/ride-crash.webp"   width="620" height="1102" loading="lazy" decoding="async" alt="The rider thrown from the bike after hitting an obstacle.">
+          <img src="assets/shots/meta-lobby.webp"   width="620" height="1102" loading="lazy" decoding="async" alt="The main menu, with campaign progress, daily rewards and the ride button.">
+          <img src="assets/shots/meta-garage.webp"  width="620" height="1102" loading="lazy" decoding="async" alt="The garage, showing a bike on a turntable with its stat bars.">
+          <img src="assets/shots/meta-upgrade.webp" width="620" height="1102" loading="lazy" decoding="async" alt="The upgrade screen, listing a bike's upgrade tracks and their costs.">
+          <img src="assets/shots/meta-shop.webp"    width="620" height="1102" loading="lazy" decoding="async" alt="The shop screen, listing coin and gem bundles with their prices.">
+        </div>
+        <p class="caption">Scroll sideways, or use the arrow keys.</p>
+      </section>
+    </div>
+  </div>
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+  <!-- ── the numbers ────────────────────────────────────────── -->
+  <div class="ledger">
+    <div class="trail">
+      <div class="rail"><span class="mark" style="top:7rem"><span>2,250 m</span></span></div>
+      <div class="body">
+        <section>
+          <h2>What is behind the endless run</h2>
+          <p class="lede measure" style="margin-top:var(--s3)">A whole mountain. Each descent asks for a distance, a time, or simply that you last.</p>
+          <div class="figures">
+            <div><b>120</b><span>numbered descents across ten chapters</span></div>
+            <div><b>12</b><span>bikes, each one handling differently</span></div>
+            <div><b>19</b><span>riders, each with a passive</span></div>
+            <div><b>7</b><span>upgrade tracks per bike, ten levels each</span></div>
+            <div><b>50</b><span>season tiers, rolling every 28 days</span></div>
+            <div><b>11</b><span>languages</span></div>
+          </div>
+          <p class="lede" style="margin-top:var(--s5);max-width:34em">It plays offline, start to finish. No timers, no energy, no waiting.</p>
+        </section>
+      </div>
+    </div>
+  </div>
 
-        // 3D card tilt effect
-        const card3d = document.querySelector('.card-3d');
-        if (card3d) {
-            card3d.addEventListener('mousemove', (e) => {
-                const rect = card3d.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
+  <!-- ── who made it ────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:7rem"><span>3,120 m</span></span></div>
+    <div class="body">
+      <section id="maker">
+        <h2>Who made it</h2>
+        <div class="maker" style="margin-top:var(--s4)">
+          <div class="who">
+            <strong style="color:var(--ink);font-weight:800">Jay Shah</strong><br>
+            Toronto, Ontario<br>
+            <span style="color:var(--rust)">Downhill Rush: Bike Racer, 2026</span>
+          </div>
+          <div>
+            <p>I'm Jay Shah, a developer in Toronto. I work on backend and AI systems professionally, and I build mobile games the rest of the time.</p>
+            <p>Downhill Rush: Bike Racer is the first one I have released. I built it on my own in Unity — the riding physics, the watercolour render pass, the seasons and leaderboards running behind it, and the store listings in all eleven languages. It shipped to Google Play and the App Store on the same day.</p>
+            <p>It is not the last one. If you want to hear about the next, the email address below is the best way to reach me.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
 
-                card3d.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
+  <!-- ── contact ────────────────────────────────────────────── -->
+  <div class="trail">
+    <div class="rail"><span class="mark" style="top:7rem"><span>4,000 m</span></span></div>
+    <div class="body">
+      <section id="contact">
+        <h2>Get in touch</h2>
+        <p style="margin-top:var(--s3);margin-bottom:var(--s4)">
+          <a class="mailto" href="mailto:jayshah248@gmail.com">jayshah248@gmail.com</a>
+        </p>
+        <p class="measure">Bug reports, press, or anything about the game. This is the same address printed on both store listings. If you are writing about a problem with your account, include the player id from the bottom of the in-game Settings screen — without it there is no way to find your record.</p>
+      </section>
+    </div>
+  </div>
 
-            card3d.addEventListener('mouseleave', () => {
-                card3d.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-            });
-        }
+</main>
 
-        // Initialize particles on load
-        window.addEventListener('load', createParticles);
+<footer>
+  <div class="wrap foot">
+    <div>
+      <ul class="legal">
+        <li><a href="https://downhillrush-game.web.app/privacy">Privacy Policy</a></li>
+        <li><a href="https://downhillrush-game.web.app/terms">Terms of Use</a></li>
+        <li><a href="https://downhillrush-game.web.app/delete">Delete Your Data</a></li>
+      </ul>
+      <p class="colophon" style="margin-top:var(--s2)">
+        Downhill Rush: Bike Racer is free to play and contains ads and in-app purchases.
+      </p>
+    </div>
+    <p class="colophon">
+      <strong>&copy; 2026 Jay Shah</strong><br>
+      Toronto, Ontario<br>
+      <a href="mailto:jayshah248@gmail.com">jayshah248@gmail.com</a>
+    </p>
+  </div>
+</footer>
 
-        // Add loading state removal
-        window.addEventListener('load', () => {
-            document.body.classList.remove('loading');
-        });
+<script>
+// The trailer is a facade: nothing is requested from YouTube, and no
+// cookie is set, until someone actually presses play.
+document.getElementById('tv').addEventListener('click', function () {
+  var f = document.createElement('iframe');
+  f.className = 'tvframe';
+  f.src = 'https://www.youtube-nocookie.com/embed/q07lgzRp7Zk?autoplay=1&rel=0';
+  f.title = 'Downhill Rush: Bike Racer trailer';
+  f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  f.referrerPolicy = 'strict-origin-when-cross-origin';
+  f.allowFullscreen = true;
+  this.replaceWith(f);
+  f.focus();
+}, { once: true });
+</script>
 
-        // Add typewriter effect for hero text
-        const heroTitle = document.querySelector('.hero-text h1');
-        if (heroTitle) {
-            const text = heroTitle.textContent;
-            heroTitle.textContent = '';
-            let index = 0;
-
-            function typeWriter() {
-                if (index < text.length) {
-                    heroTitle.textContent += text.charAt(index);
-                    index++;
-                    setTimeout(typeWriter, 50);
-                }
-            }
-
-            setTimeout(typeWriter, 500);
-        }
-    </script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"MobileApplication",
+      "name":"Downhill Rush: Bike Racer",
+      "applicationCategory":"GameApplication",
+      "operatingSystem":"Android, iOS",
+      "url":"https://thejayshah.com/",
+      "image":"https://thejayshah.com/assets/og.jpg",
+      "description":"A first-person endless descent down a hand-painted mountain bike trail. No lanes, no rails, no auto-steer. Plays offline.",
+      "inLanguage":["en","de","es","fr","id","it","ja","ko","pt-BR","tr","zh-Hant"],
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "author":{"@id":"https://thejayshah.com/#jay"},
+      "publisher":{"@id":"https://thejayshah.com/#jay"}
+    },
+    {
+      "@type":"Person",
+      "@id":"https://thejayshah.com/#jay",
+      "name":"Jay Shah",
+      "url":"https://thejayshah.com/",
+      "email":"jayshah248@gmail.com",
+      "jobTitle":"Game developer",
+      "address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"}
+    }
+  ]
+}
+</script>
 </body>
 </html>
